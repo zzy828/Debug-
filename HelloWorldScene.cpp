@@ -49,8 +49,8 @@ bool HelloWorld::init()
         return false;
     }
 
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    visibleSize = Director::getInstance()->getVisibleSize();
+    origin = Director::getInstance()->getVisibleOrigin();
 
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
@@ -111,6 +111,7 @@ bool HelloWorld::init()
     {
         // position the sprite on the center of the screen
         sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+		sprite->setScale(0.5f);
         // add the sprite as a child to this layer
         this->addChild(sprite, 0);
     }
@@ -141,13 +142,6 @@ bool HelloWorld::init()
 	{
 		keys[keycode] = false;
 	};
-	/*
-	if (nowPos.x < origin.x + sprite->getContentSize().width / 2) nowPos.x = origin.x + sprite->getContentSize().width / 2;
-		if (nowPos.y < origin.y + sprite->getContentSize().height / 2) nowPos.x = origin.y + sprite->getContentSize().height / 2;
-		if (nowPos.x > origin.x + visibleSize.width - sprite->getContentSize().width / 2) nowPos.x = origin.x + visibleSize.width - sprite->getContentSize().width / 2;
-		if (nowPos.y > origin.y + visibleSize.width - sprite->getContentSize().height / 2) nowPos.x = origin.y + visibleSize.width - sprite->getContentSize().height / 2;
-		sprite->setPosition(nowPos);
-	*/
 	auto _eventDispatcher = Director::getInstance()->getEventDispatcher();
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(_mouseListen, sprite);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(_keyboardListen, sprite);
@@ -190,7 +184,11 @@ void HelloWorld::update(float delta)
 	if (keys[rightArrow]) {
 		nowPos.x += 5;
 	}
-	auto moveTo = MoveTo::create(0.12, nowPos);
+	if (nowPos.x < origin.x + sprite->getContentSize().width * 0.5/ 2) nowPos.x = origin.x + sprite->getContentSize().width * 0.5 / 2;
+	if (nowPos.y < origin.y + sprite->getContentSize().height * 0.5 / 2) nowPos.y= origin.y + sprite->getContentSize().height * 0.5 / 2;
+	if (nowPos.x > origin.x + visibleSize.width - sprite->getContentSize().width * 0.5 / 2) nowPos.x = origin.x + visibleSize.width - sprite->getContentSize().width * 0.5 / 2;
+	if (nowPos.y > origin.y + visibleSize.height - sprite->getContentSize().height * 0.5 / 2) nowPos.y = origin.y + visibleSize.height - sprite->getContentSize().height * 0.5 / 2;
+	auto moveTo = MoveTo::create(0.12f, nowPos);
 	sprite->runAction(moveTo);
 	return;
 

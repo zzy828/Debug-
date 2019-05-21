@@ -31,9 +31,11 @@ class HelloWorld : public cocos2d::Scene
 {
 public:
     static cocos2d::Scene* createScene();
-
+	
     virtual bool init();
-	cocos2d::Sprite* sprite;    // a selector callback
+	cocos2d::Sprite* sprite;
+	cocos2d::Vec2 origin;
+	cocos2d::Size visibleSize;
     void menuCloseCallback(cocos2d::Ref* pSender);
 	void update(float delta) override;
     // implement the "static create()" method manually
